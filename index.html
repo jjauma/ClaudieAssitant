@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1a1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Claudie" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>Claudie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Pantalla de configuració inicial -->
+  <div id="setup-screen" class="setup-screen hidden">
+    <div class="setup-card">
+      <h1 class="brand">Claudie</h1>
+      <p class="setup-intro">Hola. Para hablar conmigo necesito conectarme a tu servidor.</p>
+      <label class="field">
+        <span>URL del servidor</span>
+        <input type="text" id="setup-url" placeholder="https://claudie-worker.xxx.workers.dev" />
+      </label>
+      <label class="field">
+        <span>Contraseña</span>
+        <input type="password" id="setup-password" placeholder="Tu APP_PASSWORD" />
+      </label>
+      <button class="primary-btn" id="setup-save">Conectar</button>
+      <p class="setup-error hidden" id="setup-error"></p>
+    </div>
+  </div>
+
+  <!-- App principal -->
+  <div id="app" class="app hidden">
+
+    <!-- Capçalera -->
+    <header class="header">
+      <div class="header-row">
+        <h1 class="brand">Claudie</h1>
+        <div class="header-actions">
+          <button class="tab-btn" id="open-tasks" aria-label="Tareas" title="Tareas">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 11 12 14 22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+            <span class="badge" id="tasks-badge">0</span>
+          </button>
+          <button class="tab-btn" id="open-ideas" aria-label="Ideas" title="Ideas">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.7.6 1 1.5 1 2.3v0h6v0c0-.8.3-1.7 1-2.3A7 7 0 0 0 12 2z"/>
+            </svg>
+            <span class="badge" id="ideas-badge">0</span>
+          </button>
+          <button class="tab-btn" id="open-perfil" aria-label="Perfil" title="Perfil">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </button>
+          <button class="icon-btn-small" id="settings-btn" aria-label="Configuración" title="Configuración">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Conversa -->
+    <main class="chat" id="chat">
+      <div class="messages" id="messages"></div>
+    </main>
+
+    <!-- Compositor -->
+    <footer class="composer">
+      <div class="mode-chips">
+        <button class="mode-chip" data-mode="tarea" aria-label="Forzar tarea">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 11 12 14 22 4"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+          <span>Tarea</span>
+        </button>
+        <button class="mode-chip" data-mode="idea" aria-label="Forzar idea">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.7.6 1 1.5 1 2.3v0h6v0c0-.8.3-1.7 1-2.3A7 7 0 0 0 12 2z"/>
+          </svg>
+          <span>Idea</span>
+        </button>
+        <button class="mode-chip" data-mode="busqueda" aria-label="Búsqueda web">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span>Búsqueda</span>
+        </button>
+        <button class="mode-chip" data-mode="charla" aria-label="Solo charlar, no guardar nada">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>Charla</span>
+        </button>
+      </div>
+      <div class="composer-row">
+        <textarea
+          id="msg-input"
+          class="msg-input"
+          placeholder="Escribe o usa el micro del teclado..."
+          rows="1"
+          autocomplete="off"
+        ></textarea>
+        <button class="send-btn" id="send-btn" aria-label="Enviar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="composer-hint">
+        <span class="hint" id="send-status"></span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Panell de tasques (slide-over) -->
+  <aside class="drawer hidden" id="tasks-drawer">
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <h2>Tareas</h2>
+        <button class="close-btn" id="close-tasks">×</button>
+      </div>
+      <div class="drawer-body">
+        <div class="task-filter">
+          <button class="filter-tab active" data-cat="pro">Profesional <span class="count" id="count-pro">0</span></button>
+          <button class="filter-tab" data-cat="personal">Personal <span class="count" id="count-personal">0</span></button>
+        </div>
+        <ul class="task-list" id="task-list"></ul>
+        <p class="empty" id="task-empty">Ninguna tarea pendiente. Pídemelo en la conversación.</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Panell d'Idees -->
+  <aside class="drawer hidden" id="ideas-drawer">
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <h2>Ideas</h2>
+        <button class="close-btn" id="close-ideas">×</button>
+      </div>
+      <div class="drawer-body">
+        <p class="drawer-intro">Pensamientos, posibilidades y planteamientos. Dile a Claudie "guarda esto como idea" cuando quieras conservar algo.</p>
+        <div class="ideas-filter">
+          <button class="ideas-tab active" data-status="viva">Vivas <span class="count" id="count-viva">0</span></button>
+          <button class="ideas-tab" data-status="proyecto">Proyectos <span class="count" id="count-proyecto">0</span></button>
+          <button class="ideas-tab" data-status="descartada">Descartadas <span class="count" id="count-descartada">0</span></button>
+        </div>
+        <div id="ideas-content"></div>
+        <p class="empty" id="ideas-empty">Aún no has guardado ideas. Cuéntame algo que valga la pena conservar y dime "guárdalo como idea".</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Panell de Perfil -->
+  <aside class="drawer hidden" id="perfil-drawer">
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <h2>Perfil</h2>
+        <button class="close-btn" id="close-perfil">×</button>
+      </div>
+      <div class="drawer-body">
+        <p class="drawer-intro">Lo que Claudie sabe de ti. Dile "recuerda que..." para añadir cosas, o bórralas tú mismo.</p>
+        <div class="perfil-actions">
+          <button class="ghost-btn" id="review-old">Revisar entradas antiguas</button>
+        </div>
+        <div id="perfil-content"></div>
+        <p class="empty" id="perfil-empty">Aún no he memorizado nada. Dime cosas que quieras que recuerde.</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Modal configuració -->
+  <div class="modal hidden" id="settings-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Configuración</h2>
+        <button class="close-btn" id="close-settings">×</button>
+      </div>
+      <div class="modal-body">
+        <label class="field">
+          <span>URL del servidor</span>
+          <input type="text" id="cfg-url" />
+        </label>
+        <label class="field">
+          <span>Contraseña</span>
+          <input type="password" id="cfg-password" />
+        </label>
+        <button class="primary-btn" id="cfg-save">Guardar</button>
+        <hr style="margin: 1.25rem 0; border: 0; border-top: 1px solid var(--border);"/>
+        <button class="danger-btn" id="reset-all">Borrar conversación y tareas</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
